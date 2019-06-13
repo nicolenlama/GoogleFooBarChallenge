@@ -1,0 +1,59 @@
+def solution(x,y):
+    
+    class BombGenerator(object):
+        def __init__(self, Mach=None, Facula=None):
+            
+            if M > 10**50 or F > 10**50:
+                raise ValueError
+                
+            Mach = M
+            Facula = F
+            self.CYCLE = 0
+            self.generator(Mach,Facula)
+
+        def reduceDifference(self,M,F):
+          if M > F:
+            ordMag=int(M/F)
+            M= M - ordMag*F
+
+          elif F > M:
+            ordMag=int(F/M)
+            F= F-ordMag*M
+         
+          self.CYCLE+=ordMag
+          return M,F
+
+        def generator(self,M,F):   
+            if M/F > 100 or F/M> 100:
+              M,F = self.reduceDifference(M,F)
+            if M > F:
+                M=M-F
+                self.CYCLE+=1
+            if F > M:
+                F=F-M
+                self.CYCLE+=1
+            if F==1 and M==1:
+                self.CYCLE=str(self.CYCLE)
+                return
+            if F == M:
+                self.CYCLE="impossible"
+                return
+            if F<1 or M <1:
+                self.CYCLE="impossible"
+                return
+            else:
+                self.generator(M,F)
+        
+    M = int(x) #turn args to ints
+    F = int(y)
+
+    if M==1:
+      return str(F-1)
+    if F==1:
+      return str(M-1)
+
+    bombs = BombGenerator()
+    return bombs.CYCLE
+    
+
+#print(solution('4000000000000000000000001','2'))
